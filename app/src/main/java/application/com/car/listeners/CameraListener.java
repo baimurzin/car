@@ -4,13 +4,40 @@ import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Marker;
+
+import application.com.car.ShowLocation;
 
 /**
  * Created by Zahit Talipov on 15.01.2016.
  */
 public class CameraListener implements GoogleMap.OnCameraChangeListener {
+    public static boolean mapIsDown=false;
+
+    public CameraListener(Marker marker, GoogleMap map) {
+        CameraListener.marker = marker;
+        CameraListener.map = map;
+    }
+
+    private static Marker marker;
+    private static GoogleMap map;
+
+
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-        Log.d("wed",cameraPosition.target.latitude+" "+cameraPosition.target.longitude);
+        if(!mapIsDown)
+        {
+            marker.setVisible(true);
+            ShowLocation.getInstance().show(cameraPosition.target);
+            mapIsDown=true;
+        }
     }
+
+    public static void markerClean(){
+        marker.setVisible(false);
+        marker.setTitle("");
+        marker.showInfoWindow();
+    }
+
+
 }

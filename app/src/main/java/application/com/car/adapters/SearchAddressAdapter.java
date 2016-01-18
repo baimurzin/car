@@ -124,7 +124,7 @@ public class SearchAddressAdapter extends ArrayAdapter<AutocompletePrediction> i
 
             final Status status = autocompletePredictions.getStatus();
             if (!status.isSuccess()) {
-                Toast.makeText(getContext(), "Error contacting API: " + status.toString(),
+                Toast.makeText(getContext(), "Проверьте подключение к интернету",
                         Toast.LENGTH_SHORT).show();
                 Log.e("wef", "Error getting autocomplete prediction API call: " + status.toString());
                 autocompletePredictions.release();
@@ -133,8 +133,6 @@ public class SearchAddressAdapter extends ArrayAdapter<AutocompletePrediction> i
 
             Log.i("wef", "Query completed. Received " + autocompletePredictions.getCount()
                     + " predictions.");
-
-            // Freeze the results immutable representation that can be stored safely.
             return DataBufferUtils.freezeAndClose(autocompletePredictions);
         }
         return null;

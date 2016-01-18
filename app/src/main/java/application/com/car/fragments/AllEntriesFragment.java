@@ -26,7 +26,7 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        getFragmentManager().beginTransaction().replace(R.id.frameLayoutRoot, new AddRouteFragment())
+        getFragmentManager().beginTransaction().replace(R.id.frameLayoutRoot, new AddRouteStartFragment())
                 .addToBackStack(null).commit();
     }
 }

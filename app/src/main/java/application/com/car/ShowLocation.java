@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.Marker;
 import java.io.IOException;
 import java.util.List;
 
+import application.com.car.entity.Route;
+
 /**
  * Created by Zahit Talipov on 16.01.2016.
  */
@@ -54,9 +56,20 @@ public class ShowLocation {
     }
 
     public void show(LatLng lng) {
+        Route.setStartPoint(lng);
         marker.setPosition(lng);
         marker.setTitle("{Загрузка}");
         CameraPosition cameraPosition = CameraPosition.builder().target(lng).zoom(map.getCameraPosition().zoom).build();
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        marker.showInfoWindow();
+        new GeocoderAsyncTask().execute(lng);
+    }
+
+    public void show(LatLng lng, float zoom) {
+        Route.setStartPoint(lng);
+        marker.setPosition(lng);
+        marker.setTitle("{Загрузка}");
+        CameraPosition cameraPosition = CameraPosition.builder().target(lng).zoom(zoom).build();
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         marker.showInfoWindow();
         new GeocoderAsyncTask().execute(lng);
@@ -67,6 +80,7 @@ public class ShowLocation {
             @Override
             public void onResult(PlaceBuffer places) {
                 LatLng latLng = places.get(0).getLatLng();
+                Route.setStartPoint(latLng);
                 marker.setPosition(latLng);
                 marker.setTitle(prediction.getPrimaryText(STYLE_BOLD) + "," + prediction.getSecondaryText(STYLE_BOLD));
                 CameraPosition cameraPosition = CameraPosition.builder().target(latLng).zoom(15).build();
