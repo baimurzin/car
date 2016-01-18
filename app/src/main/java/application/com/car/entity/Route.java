@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
  * Created by Zahit Talipov on 17.01.2016.
  */
 public class Route {
+    public static boolean isExistStartPoint=false;
     private static LatLng startPoint;
     private static LatLng finishPoint;
     private static LatLngBounds latLngBounds;

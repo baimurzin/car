@@ -3,6 +3,7 @@ package application.com.car.listeners;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -50,15 +51,13 @@ public class SelectFinishPointListener implements AdapterView.OnItemClickListene
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
         AutocompletePrediction prediction = searchAddressAdapter.getItem(position);
         Places.GeoDataApi.getPlaceById(apiClient, prediction.getPlaceId()).setResultCallback(new ResultCallback<PlaceBuffer>() {
             @Override
             public void onResult(PlaceBuffer places) {
                 Route.setFinishPoint(places.get(0).getLatLng());
-                map.animateCamera(CameraUpdateFactory.newLatLngBounds(Route.getLatLngBounds(), 110));
                 showRoute();
-                if (finishMarker == null)
-                    finishMarker = map.addMarker(new MarkerOptions().position(Route.getFinishPoint()).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_current)));
             }
         });
 
@@ -75,7 +74,7 @@ public class SelectFinishPointListener implements AdapterView.OnItemClickListene
 
             @Override
             public void onFailure(Throwable t) {
-
+                Toast.makeText(context, "Проверьте подключение к интернету", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -84,7 +83,7 @@ public class SelectFinishPointListener implements AdapterView.OnItemClickListene
         map.clear();
         List<LatLng> mPoints = PolyUtil.decode(routeResponse.getPoints());
         PolylineOptions line = new PolylineOptions();
-        line.width(4f).color(R.color.colorAccent);
+        line.width(5f).color(R.color.colorAccent);
         LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
         for (int i = 0; i < mPoints.size(); i++) {
             if (i == 0) {
@@ -104,7 +103,7 @@ public class SelectFinishPointListener implements AdapterView.OnItemClickListene
         map.addPolyline(line);
         int size = context.getResources().getDisplayMetrics().widthPixels;
         LatLngBounds latLngBounds = latLngBuilder.build();
-        CameraUpdate track = CameraUpdateFactory.newLatLngBounds(latLngBounds, size, size, 25);
+        CameraUpdate track = CameraUpdateFactory.newLatLngBounds(latLngBounds, size, size, 70);
         map.animateCamera(track);
     }
 }

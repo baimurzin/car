@@ -6,4 +6,6 @@
 
     <string name="action_settings">Settings</string>
     <string name="api_key">AIzaSyBaHiXh1vPJiOTPvZ4g1Z3qPcpi_ppCHX8</string>
+    <string name="time">Время</string>
+    <string name="date">Дата</string>
 </resources>

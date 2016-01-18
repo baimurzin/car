@@ -20,13 +20,14 @@ public class ChoiceStartButtonListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(Route.getStartPoint()!=null){
-        activity.getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frameLayoutRoot, new AddRouteFinishFragment(), "finishPoint")
-                .addToBackStack(null).commit();}
-        else {
-            Toast.makeText(activity,"Выберите начальную точку",Toast.LENGTH_LONG).show();
+        if (Route.isExistStartPoint) {
+            MLocationListener.locationChanged = false;
+            activity.getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frameLayoutRoot, new AddRouteFinishFragment(), "finishPoint")
+                    .addToBackStack(null).commit();
+        } else {
+            Toast.makeText(activity, "Выберите начальную точку", Toast.LENGTH_LONG).show();
         }
 
     }

@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -66,6 +65,7 @@ public class AddRouteStartFragment extends Fragment implements OnMapReadyCallbac
                 .addOnConnectionFailedListener(this)
                 .build();
         SearchAddressAdapter adapter = new SearchAddressAdapter(getActivity(), googleApiClient);// инициализация адаптера для поиска адреса
+        editTextSearch.setText("");
         editTextSearch.setAdapter(adapter);
         editTextSearch.setOnItemClickListener(new SelectStartPointListener(adapter, googleApiClient));
         imageButton.setOnClickListener(this);
@@ -148,6 +148,12 @@ public class AddRouteStartFragment extends Fragment implements OnMapReadyCallbac
                 }
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        MLocationListener.locationChanged=false;
+        super.onDestroy();
     }
 
     @Override

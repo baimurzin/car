@@ -39,13 +39,13 @@
             android:id="@+id/buttonSelectDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="23 января" />
+            android:text="@string/date" />
 
         <Button
             android:id="@+id/buttonSelectTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="22:03" />
+            android:text="@string/time" />
     </LinearLayout>
 
     <fragment

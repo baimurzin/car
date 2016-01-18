@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import application.com.car.R;
 import application.com.car.adapters.SearchAddressAdapter;
 import application.com.car.entity.Route;
+import application.com.car.listeners.ChoiceDatetimeListener;
 import application.com.car.listeners.SelectFinishPointListener;
 
 /**
@@ -45,10 +47,16 @@ public class AddRouteFinishFragment extends Fragment implements OnMapReadyCallba
                 .addApi(Places.GEO_DATA_API)
                 .addOnConnectionFailedListener(this)
                 .build();
+        Button buttonSelectDate = (Button) view.findViewById(R.id.buttonSelectDate);
+        Button buttonSelectTime = (Button) view.findViewById(R.id.buttonSelectTime);
+        ChoiceDatetimeListener choiceDatetimeListener = new ChoiceDatetimeListener(getActivity());
+        buttonSelectDate.setOnClickListener(choiceDatetimeListener);
+        buttonSelectTime.setOnClickListener(choiceDatetimeListener);
         autoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.editTextSearchFinish);
-        SearchAddressAdapter adapter=new SearchAddressAdapter(getActivity(), googleApiClient);
+        autoCompleteTextView.setText("");
+        SearchAddressAdapter adapter = new SearchAddressAdapter(getActivity(), googleApiClient);
         autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setOnItemClickListener(new SelectFinishPointListener(getActivity(),adapter,map,googleApiClient));
+        autoCompleteTextView.setOnItemClickListener(new SelectFinishPointListener(getActivity(), adapter, map, googleApiClient));
         MapFragment mapFragment = MapFragment.newInstance();//инициализация карты
         getFragmentManager().beginTransaction().replace(R.id.map_start, mapFragment).commit();
         mapFragment.getMapAsync(this);
@@ -57,11 +65,11 @@ public class AddRouteFinishFragment extends Fragment implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map=googleMap;
-        SelectFinishPointListener.map=googleMap;
+        map = googleMap;
+        SelectFinishPointListener.map = googleMap;
         CameraPosition cameraPosition = CameraPosition.builder().target(Route.getStartPoint()).zoom(14).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-       // googleMap.getUiSettings().setAllGesturesEnabled(false);
+        // googleMap.getUiSettings().setAllGesturesEnabled(false);
         Marker marker = googleMap.addMarker(new MarkerOptions().position(Route.getStartPoint())
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_current)));
     }

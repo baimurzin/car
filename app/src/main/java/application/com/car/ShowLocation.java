@@ -35,6 +35,20 @@ public class ShowLocation {
     static ShowLocation showLocation;
     static Context context;
 
+    GoogleMap.CancelableCallback callback = new GoogleMap.CancelableCallback() {
+        @Override
+        public void onFinish() {
+            marker.setTitle("{Загрузка}");
+            marker.showInfoWindow();
+            new GeocoderAsyncTask().execute(marker.getPosition());
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+    };
+
     private ShowLocation() {
     }
 
@@ -68,11 +82,9 @@ public class ShowLocation {
     public void show(LatLng lng, float zoom) {
         Route.setStartPoint(lng);
         marker.setPosition(lng);
-        marker.setTitle("{Загрузка}");
         CameraPosition cameraPosition = CameraPosition.builder().target(lng).zoom(zoom).build();
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        marker.showInfoWindow();
-        new GeocoderAsyncTask().execute(lng);
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),callback);
+
     }
 
     public void show(GoogleApiClient apiClient, final AutocompletePrediction prediction) {
@@ -82,6 +94,7 @@ public class ShowLocation {
                 LatLng latLng = places.get(0).getLatLng();
                 Route.setStartPoint(latLng);
                 marker.setPosition(latLng);
+                Route.isExistStartPoint = true;
                 marker.setTitle(prediction.getPrimaryText(STYLE_BOLD) + "," + prediction.getSecondaryText(STYLE_BOLD));
                 CameraPosition cameraPosition = CameraPosition.builder().target(latLng).zoom(15).build();
                 map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -92,7 +105,23 @@ public class ShowLocation {
     }
 
     private String format(Address address) {
-        return String.format("%s, %s, %s", address.getLocality(), address.getThoroughfare(), address.getFeatureName());
+        StringBuffer buffer = new StringBuffer();
+        String[] strings = {address.getLocality(), address.getThoroughfare(), address.getFeatureName()};
+        boolean isFirst = false;
+        for (String s : strings) {
+            if (s != null && !s.contains("Unnamed Rd")) {
+                if (!isFirst) {
+                    buffer.append(s);
+                    isFirst = true;
+                } else {
+                    buffer.append("," + s);
+                }
+            }
+        }
+        if (buffer.length() == 0) {
+            return "{Адрес не найден}";
+        }
+        return buffer.toString();
     }
 
     class GeocoderAsyncTask extends AsyncTask<LatLng, String, String> {
@@ -105,18 +134,21 @@ public class ShowLocation {
                 List<Address> addresses = geocoder.getFromLocation(params[0].latitude, params[0].longitude, 1);
                 if (!addresses.isEmpty()) {
                     Address address = addresses.get(0);
+                    Route.isExistStartPoint = true;
                     return format(address);
                 } else {
-                    throw new IOException();
+                    return "{Адрес не найден}";
                 }
             } catch (IOException e) {
-                return "{Адрес не найден}";
+                Route.isExistStartPoint = false;
+                return "{Проверьте подключение к интернету}";
             }
         }
 
         @Override
         protected void onPostExecute(String o) {
             Log.d("address", o);
+
             marker.setTitle(o);
             marker.showInfoWindow();
             super.onPostExecute(o);
