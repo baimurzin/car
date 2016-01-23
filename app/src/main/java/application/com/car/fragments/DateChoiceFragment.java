@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import application.com.car.R;
+import application.com.car.entity.Route;
 
 /**
  * Created by Zahit Talipov on 18.01.2016.
@@ -19,6 +20,7 @@ public class DateChoiceFragment extends DialogFragment implements DialogInterfac
     Button button;
     DatePicker datePicker;
     String[] months = {"Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"};
+
     public DateChoiceFragment(Button button) {
         this.button = button;
     }
@@ -37,6 +39,7 @@ public class DateChoiceFragment extends DialogFragment implements DialogInterfac
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
+        Route.setDate(datePicker.getDayOfMonth(),datePicker.getMonth());
         button.setText(datePicker.getDayOfMonth() + " " + months[datePicker.getMonth()]);
     }
 }

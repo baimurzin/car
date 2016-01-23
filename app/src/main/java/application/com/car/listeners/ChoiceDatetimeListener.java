@@ -28,7 +28,7 @@ public class ChoiceDatetimeListener implements View.OnClickListener {
             }
             case R.id.buttonSelectTime: {
                 TimeChoiceFragment timeChoiceFragment = new TimeChoiceFragment((Button) v);
-                timeChoiceFragment.show(context.getFragmentManager(), "selectDate");
+                timeChoiceFragment.show(context.getFragmentManager(), "selectTime");
                 break;
             }
         }

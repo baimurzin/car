@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import application.com.car.fragments.AllEntriesFragment;
+import application.com.car.fragments.SingleRouteFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -77,16 +78,27 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_profile: {
 
+                break;
             }
             case R.id.nav_all_entries: {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.frameLayoutRoot, new AllEntriesFragment())
                         .addToBackStack(null)
                         .commit();
+                break;
             }
             case R.id.nav_settings: {
 
+                break;
             }
+            case R.id.nav_single: {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayoutRoot, new SingleRouteFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+
+
         }
     }
 }

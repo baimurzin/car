@@ -7,13 +7,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.shamanland.fab.ShowHideOnScroll;
 
 import application.com.car.R;
+import application.com.car.adapters.AllEntriesAdapter;
+import application.com.car.listeners.RoutesItemClickListener;
 
 /**
  * Created by Zahit Talipov on 14.01.2016.
  */
 public class AllEntriesFragment extends Fragment implements View.OnClickListener {
+    ListView list;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -21,6 +28,11 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
         getActivity().setTitle("Car");
         FloatingActionButton actionButton = (FloatingActionButton) view.findViewById(R.id.addEntry);
         actionButton.setOnClickListener(this);
+        list = (ListView) view.findViewById(R.id.listRoutes);
+        list.setOnTouchListener(new ShowHideOnScroll(actionButton));
+        AllEntriesAdapter allEntriesAdapter = new AllEntriesAdapter(getActivity(), view);
+        list.setAdapter(allEntriesAdapter);
+        list.setOnItemClickListener(new RoutesItemClickListener(allEntriesAdapter,getActivity()));
         return view;
     }
 

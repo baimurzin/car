@@ -8,4 +8,8 @@
     <string name="api_key">AIzaSyBaHiXh1vPJiOTPvZ4g1Z3qPcpi_ppCHX8</string>
     <string name="time">Время</string>
     <string name="date">Дата</string>
+    <string name="errorInternetConnection">Проверьте подключение к интернету</string>
+    <string name="addressNotFound">Адрес не найден</string>
+    <string name="notSelectedStartPoint">Выберите начальную точку</string>
+    <string name="button_text_create_round">Создать маршрут</string>
 </resources>

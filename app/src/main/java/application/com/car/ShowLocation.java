@@ -83,7 +83,7 @@ public class ShowLocation {
         Route.setStartPoint(lng);
         marker.setPosition(lng);
         CameraPosition cameraPosition = CameraPosition.builder().target(lng).zoom(zoom).build();
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition),callback);
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), callback);
 
     }
 
@@ -137,11 +137,11 @@ public class ShowLocation {
                     Route.isExistStartPoint = true;
                     return format(address);
                 } else {
-                    return "{Адрес не найден}";
+                    return context.getResources().getString(R.string.addressNotFound);
                 }
             } catch (IOException e) {
                 Route.isExistStartPoint = false;
-                return "{Проверьте подключение к интернету}";
+                return context.getResources().getString(R.string.errorInternetConnection);
             }
         }
 

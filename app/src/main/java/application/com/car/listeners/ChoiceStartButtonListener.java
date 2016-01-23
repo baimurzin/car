@@ -27,7 +27,7 @@ public class ChoiceStartButtonListener implements View.OnClickListener {
                     .replace(R.id.frameLayoutRoot, new AddRouteFinishFragment(), "finishPoint")
                     .addToBackStack(null).commit();
         } else {
-            Toast.makeText(activity, "Выберите начальную точку", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, activity.getResources().getString(R.string.notSelectedStartPoint), Toast.LENGTH_LONG).show();
         }
 
     }

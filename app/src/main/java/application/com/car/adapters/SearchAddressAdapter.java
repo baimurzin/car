@@ -7,7 +7,6 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -16,30 +15,29 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.data.DataBufferUtils;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.AutocompletePredictionBuffer;
-import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import application.com.car.ShowLocation;
+import application.com.car.AppDelegate;
+import application.com.car.R;
 
 /**
  * Created by Zahit Talipov on 16.01.2016.
  */
-public class SearchAddressAdapter extends ArrayAdapter<AutocompletePrediction> implements Filterable{
+public class SearchAddressAdapter extends ArrayAdapter<AutocompletePrediction> implements Filterable {
 
     private static final CharacterStyle STYLE_BOLD = new StyleSpan(Typeface.BOLD);
     ArrayList<AutocompletePrediction> autocompletePredictions;
     GoogleApiClient googleApiClient;
+    private boolean isError;
 
     public SearchAddressAdapter(Context context, GoogleApiClient apiClient) {
         super(context, android.R.layout.simple_expandable_list_item_2, android.R.id.text1);
@@ -115,30 +113,43 @@ public class SearchAddressAdapter extends ArrayAdapter<AutocompletePrediction> i
     private ArrayList<AutocompletePrediction> getAutocomplete(CharSequence constraint) {
         if (googleApiClient.isConnected()) {
             Log.i("wef", "Starting autocomplete query for: " + constraint);
+            String textForSearch = AppDelegate.getLocalCity() + " " + constraint.toString();
             PendingResult<AutocompletePredictionBuffer> results =
                     Places.GeoDataApi
-                            .getAutocompletePredictions(googleApiClient, constraint.toString(), new LatLngBounds(new LatLng(-90, -180), new LatLng(90, 180)), null);
+                            .getAutocompletePredictions(googleApiClient, textForSearch, new LatLngBounds(new LatLng(-90, -180), new LatLng(90, 180)), null);
 
 
             AutocompletePredictionBuffer autocompletePredictions = results.await(60, TimeUnit.SECONDS);
 
             final Status status = autocompletePredictions.getStatus();
             if (!status.isSuccess()) {
-                Toast.makeText(getContext(), "Проверьте подключение к интернету",
-                        Toast.LENGTH_SHORT).show();
+                if (!isError) {
+                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.errorInternetConnection), Toast.LENGTH_SHORT).show();
+                    isError = true;
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(2500);
+                                isError = false;
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    thread.start();
+                }
                 Log.e("wef", "Error getting autocomplete prediction API call: " + status.toString());
                 autocompletePredictions.release();
                 return null;
             }
-
+            isError = false;
             Log.i("wef", "Query completed. Received " + autocompletePredictions.getCount()
                     + " predictions.");
             return DataBufferUtils.freezeAndClose(autocompletePredictions);
         }
         return null;
     }
-
-
 
 
 }

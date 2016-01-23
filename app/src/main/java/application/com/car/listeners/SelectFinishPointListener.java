@@ -1,6 +1,7 @@
 package application.com.car.listeners;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -10,24 +11,18 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
-import java.util.List;
-
+import application.com.car.AppDelegate;
 import application.com.car.R;
 import application.com.car.adapters.SearchAddressAdapter;
+import application.com.car.entity.ItemRoute;
 import application.com.car.entity.Route;
 import application.com.car.entity.RouteResponse;
 import application.com.car.service.ApiClientGoogleFactory;
+import application.com.car.service.BuildRoute;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -41,6 +36,18 @@ public class SelectFinishPointListener implements AdapterView.OnItemClickListene
     SearchAddressAdapter searchAddressAdapter;
     GoogleApiClient apiClient;
     Context context;
+    Callback<RouteResponse> responseCallback = new Callback<RouteResponse>() {
+        @Override
+        public void onResponse(Response<RouteResponse> response, Retrofit retrofit) {
+            getRoute(response.body());
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            t.printStackTrace();
+            Toast.makeText(context, context.getResources().getString(R.string.errorInternetConnection), Toast.LENGTH_SHORT).show();
+        }
+    };
 
     public SelectFinishPointListener(Context context, SearchAddressAdapter searchAddressAdapter, GoogleMap map, GoogleApiClient apiClient) {
         this.searchAddressAdapter = searchAddressAdapter;
@@ -66,44 +73,16 @@ public class SelectFinishPointListener implements AdapterView.OnItemClickListene
     private void showRoute() {
         ApiClientGoogleFactory.getApiGoogle().getRoute(Route.getStartPointToString(),
                 Route.getFinishPointToString(), true,
-                context.getResources().getString(R.string.api_key)).enqueue(new Callback<RouteResponse>() {
-            @Override
-            public void onResponse(Response<RouteResponse> response, Retrofit retrofit) {
-                getRoute(response.body());
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Toast.makeText(context, "Проверьте подключение к интернету", Toast.LENGTH_SHORT).show();
-            }
-        });
+                context.getResources().getString(R.string.api_key), "ru").enqueue(responseCallback);
     }
+
 
     private void getRoute(RouteResponse routeResponse) {
         map.clear();
-        List<LatLng> mPoints = PolyUtil.decode(routeResponse.getPoints());
-        PolylineOptions line = new PolylineOptions();
-        line.width(5f).color(R.color.colorAccent);
-        LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
-        for (int i = 0; i < mPoints.size(); i++) {
-            if (i == 0) {
-                MarkerOptions startMarkerOptions = new MarkerOptions()
-                        .position(mPoints.get(i))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_current));
-                map.addMarker(startMarkerOptions);
-            } else if (i == mPoints.size() - 1) {
-                MarkerOptions endMarkerOptions = new MarkerOptions()
-                        .position(mPoints.get(i))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_current));
-                map.addMarker(endMarkerOptions);
-            }
-            line.add(mPoints.get(i));
-            latLngBuilder.include(mPoints.get(i));
-        }
-        map.addPolyline(line);
-        int size = context.getResources().getDisplayMetrics().widthPixels;
-        LatLngBounds latLngBounds = latLngBuilder.build();
-        CameraUpdate track = CameraUpdateFactory.newLatLngBounds(latLngBounds, size, size, 70);
-        map.animateCamera(track);
+        Route.setEndAddress(routeResponse.getEndAddress());
+        Route.setStartAddress(routeResponse.getStartAddress());
+        Route.setRoute(PolyUtil.decode(routeResponse.getPoints()));
+        new BuildRoute(context, map).buildRoute(Route.getRoute(),true);
+
     }
 }

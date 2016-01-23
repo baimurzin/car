@@ -48,9 +48,26 @@
             android:text="@string/time" />
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/map_start"
-        android:name="com.google.android.gms.maps.MapFragment"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></fragment>
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map_start"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></fragment>
+
+        <Button
+            android:id="@+id/buttonFinish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
+            android:layout_weight="8"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/button_text_create_round" />
+    </android.support.design.widget.CoordinatorLayout>
+
 </LinearLayout>

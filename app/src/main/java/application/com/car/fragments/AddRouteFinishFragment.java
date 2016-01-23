@@ -25,6 +25,7 @@ import application.com.car.R;
 import application.com.car.adapters.SearchAddressAdapter;
 import application.com.car.entity.Route;
 import application.com.car.listeners.ChoiceDatetimeListener;
+import application.com.car.listeners.ChoiceFinishButtonListener;
 import application.com.car.listeners.SelectFinishPointListener;
 
 /**
@@ -49,6 +50,9 @@ public class AddRouteFinishFragment extends Fragment implements OnMapReadyCallba
                 .build();
         Button buttonSelectDate = (Button) view.findViewById(R.id.buttonSelectDate);
         Button buttonSelectTime = (Button) view.findViewById(R.id.buttonSelectTime);
+        Button buttonFinish = (Button) view.findViewById(R.id.buttonFinish);
+        buttonFinish.setOnClickListener(new ChoiceFinishButtonListener(getActivity()));
+
         ChoiceDatetimeListener choiceDatetimeListener = new ChoiceDatetimeListener(getActivity());
         buttonSelectDate.setOnClickListener(choiceDatetimeListener);
         buttonSelectTime.setOnClickListener(choiceDatetimeListener);

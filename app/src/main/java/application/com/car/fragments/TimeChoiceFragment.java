@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TimePicker;
 
 import application.com.car.R;
+import application.com.car.entity.Route;
 
 /**
  * Created by Zahit Talipov on 18.01.2016.
@@ -38,6 +39,7 @@ public class TimeChoiceFragment extends DialogFragment implements DialogInterfac
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
+        Route.setTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
         if (timePicker.getCurrentMinute() < 10)
             button.setText(timePicker.getCurrentHour() + ":" + "0" + timePicker.getCurrentMinute());
         else

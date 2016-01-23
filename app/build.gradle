@@ -29,4 +29,7 @@ dependencies {
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.google.maps.android:android-maps-utils:0.3+'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.shamanland:fab:0.0.8'
+
 }
