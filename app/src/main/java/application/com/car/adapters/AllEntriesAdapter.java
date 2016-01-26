@@ -69,7 +69,7 @@ public class AllEntriesAdapter extends BaseAdapter {
         textViewDate.setText(route.getDate());
         textViewTime.setText(route.getTime());
         textViewAddress.setText(route.getAddressStart());
-        Picasso.with(context).load(getURL(route.getRouteList())).transform(new ImageTransformation()).into(imageView, new Callback() {
+        Picasso.with(context).load(getURL(route.getRouteList())).into(imageView, new Callback() {
             @Override
             public void onSuccess() {
                 Log.d("r", "success");
@@ -103,7 +103,7 @@ public class AllEntriesAdapter extends BaseAdapter {
             count = 0;
             bufferTemp = new StringBuilder();
             for (LatLng lng : latLngs) {
-                if (count % step == 0 || count == latLngs.size())
+                if (count % step == 0 || count == latLngs.size()-1)
                     bufferTemp.append("%7C" + lng.latitude + "," + lng.longitude);
                 count++;
             }
@@ -111,21 +111,11 @@ public class AllEntriesAdapter extends BaseAdapter {
         while (bufferTemp.length() > 1800);
         buffer.append(bufferTemp.toString());
         buffer.append("&size=800x400");
+        buffer.append("&markers=icon:http://goo.gl/Bng5kK%7C"+latLngs.get(0).latitude+","+latLngs.get(0).longitude);
+        buffer.append("&markers=icon:http://goo.gl/W4s2fx%7C"+latLngs.get(latLngs.size()-1).latitude+","+latLngs.get(latLngs.size()-1).longitude);
         Log.d("url", buffer.toString());
         Log.d("size", buffer.length() + "");
         return buffer.toString();
     }
 
-    class ImageTransformation implements Transformation {
-
-        @Override
-        public Bitmap transform(Bitmap source) {
-            return source;
-        }
-
-        @Override
-        public String key() {
-            return "w";
-        }
-    }
 }

@@ -19,7 +19,6 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_input_add"
-        app:layout_behavior="application.com.car.listeners.ScrollAwareBehavior"
         app:layout_anchor="@id/listRoutes"
         app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:id="@+id/root_layout">
 
-    <ScrollView
+    <application.com.car.customViews.CustomScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView"
+        android:id="@+id/scrollViewSingleRoute"
         android:fillViewport="false">
 
         <LinearLayout
@@ -23,7 +23,7 @@
 
                 <fragment
                     android:id="@+id/map_route_single"
-                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:name="application.com.car.fragments.MyMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"></fragment>
             </LinearLayout>
@@ -39,8 +39,7 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#e9e5e5">
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -64,14 +63,21 @@
                         android:padding="3dp" />
                 </LinearLayout>
 
-                <Button
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="3/4"
-                    android:id="@+id/button"
-                    android:layout_weight="1"
-                    style="@style/JoinButton"
-                    android:textSize="35dp" />
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="3/4"
+                        android:id="@+id/button"
+                        android:textSize="35dp"
+                        android:elevation="10dp"
+                        style="@style/JoinButton"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -93,13 +99,13 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:id="@+id/imageViewA"
-                        android:src="@drawable/aa"/>
+                        android:src="@drawable/as"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Деревня Универсиады"
+                        android:text="..."
                         android:id="@+id/textViewShowSingleStartAddress"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp" />
@@ -114,12 +120,12 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:id="@+id/imageViewB"
-                        android:src="@drawable/b"/>
+                        android:src="@drawable/bs"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Аделя Кутуя"
+                        android:text="..."
                         android:id="@+id/textViewShowSingleEndAddress"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp" />
@@ -145,8 +151,8 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+79876543211"
-                    android:id="@+id/button2"
+                    android:text="Контакты"
+                    android:id="@+id/buttonNumber"
                     android:textSize="20dp" />
             </LinearLayout>
 
@@ -212,11 +218,7 @@
 
             </LinearLayout>
 
-            <WebView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/webView" />
         </LinearLayout>
-    </ScrollView>
+    </application.com.car.customViews.CustomScrollView>
 
 </LinearLayout>

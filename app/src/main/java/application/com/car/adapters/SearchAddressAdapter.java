@@ -76,7 +76,7 @@ public class SearchAddressAdapter extends ArrayAdapter<AutocompletePrediction> i
 
             @Override
             public CharSequence convertResultToString(Object resultValue) {
-                // Override this method to display a readable result in the AutocompleteTextView
+                // Override this method to display as readable result in the AutocompleteTextView
                 // when clicked.
                 if (resultValue instanceof AutocompletePrediction) {
                     return ((AutocompletePrediction) resultValue).getFullText(null);

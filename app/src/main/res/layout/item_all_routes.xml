@@ -30,7 +30,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:id="@+id/imageViewA"
-                android:src="@drawable/aa"
+                android:src="@drawable/as"
                 android:layout_gravity="center_vertical" />
 
             <TextView

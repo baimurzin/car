@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -90,12 +89,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_settings: {
 
                 break;
-            }
-            case R.id.nav_single: {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayoutRoot, new SingleRouteFragment())
-                        .addToBackStack(null)
-                        .commit();
             }
 
 

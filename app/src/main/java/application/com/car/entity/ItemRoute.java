@@ -16,6 +16,7 @@ public class ItemRoute {
     private int hour;
     private int month;
     private int dayOfMonth;
+    private String numberAuthor="1234567890";
 
     public ItemRoute(List<LatLng> routeList, String addressStart, String addressEnd, int minute, int hour, int month, int dayOfMonth) {
         this.routeList = routeList;
@@ -60,5 +61,13 @@ public class ItemRoute {
 
     public void setAddressEnd(String addressEnd) {
         this.addressEnd = addressEnd;
+    }
+
+    public String getNumberAuthor() {
+        return numberAuthor;
+    }
+
+    public void setNumberAuthor(String numberAuthor) {
+        this.numberAuthor = numberAuthor;
     }
 }

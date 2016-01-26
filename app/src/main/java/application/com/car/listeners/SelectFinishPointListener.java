@@ -73,7 +73,7 @@ public class SelectFinishPointListener implements AdapterView.OnItemClickListene
     private void showRoute() {
         ApiClientGoogleFactory.getApiGoogle().getRoute(Route.getStartPointToString(),
                 Route.getFinishPointToString(), true,
-                context.getResources().getString(R.string.api_key), "ru").enqueue(responseCallback);
+                context.getResources().getString(R.string.google_maps_key), "ru").enqueue(responseCallback);
     }
 
 

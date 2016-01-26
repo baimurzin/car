@@ -34,9 +34,11 @@ public class CameraListener implements GoogleMap.OnCameraChangeListener {
     }
 
     public static void markerClean(){
-        marker.setVisible(false);
-        marker.setTitle("");
-        marker.showInfoWindow();
+        if(marker!=null) {
+            marker.setVisible(false);
+            marker.setTitle("");
+            marker.showInfoWindow();
+        }
     }
 
 

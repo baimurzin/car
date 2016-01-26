@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -21,6 +24,12 @@ import application.com.car.listeners.RoutesItemClickListener;
 public class AllEntriesFragment extends Fragment implements View.OnClickListener {
     ListView list;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +41,7 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
         list.setOnTouchListener(new ShowHideOnScroll(actionButton));
         AllEntriesAdapter allEntriesAdapter = new AllEntriesAdapter(getActivity(), view);
         list.setAdapter(allEntriesAdapter);
-        list.setOnItemClickListener(new RoutesItemClickListener(allEntriesAdapter,getActivity()));
+        list.setOnItemClickListener(new RoutesItemClickListener(allEntriesAdapter, getActivity()));
         return view;
     }
 
@@ -40,5 +49,17 @@ public class AllEntriesFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         getFragmentManager().beginTransaction().replace(R.id.frameLayoutRoot, new AddRouteStartFragment())
                 .addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main,menu);
+        menu.setGroupVisible(R.id.menuSortGroup,true);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -52,7 +52,6 @@ public class AddRouteFinishFragment extends Fragment implements OnMapReadyCallba
         Button buttonSelectTime = (Button) view.findViewById(R.id.buttonSelectTime);
         Button buttonFinish = (Button) view.findViewById(R.id.buttonFinish);
         buttonFinish.setOnClickListener(new ChoiceFinishButtonListener(getActivity()));
-
         ChoiceDatetimeListener choiceDatetimeListener = new ChoiceDatetimeListener(getActivity());
         buttonSelectDate.setOnClickListener(choiceDatetimeListener);
         buttonSelectTime.setOnClickListener(choiceDatetimeListener);

@@ -84,8 +84,8 @@ public class AddRouteStartFragment extends Fragment implements OnMapReadyCallbac
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             locationListener = new MLocationListener(getActivity(), mMap);
-            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, locationListener);
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 20, locationListener);
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 20, locationListener);
         }
     }
 
@@ -152,7 +152,7 @@ public class AddRouteStartFragment extends Fragment implements OnMapReadyCallbac
 
     @Override
     public void onDestroy() {
-        MLocationListener.locationChanged=false;
+        MLocationListener.locationChanged = false;
         super.onDestroy();
     }
 

@@ -5,7 +5,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="api_key">AIzaSyBaHiXh1vPJiOTPvZ4g1Z3qPcpi_ppCHX8</string>
     <string name="time">Время</string>
     <string name="date">Дата</string>
     <string name="errorInternetConnection">Проверьте подключение к интернету</string>

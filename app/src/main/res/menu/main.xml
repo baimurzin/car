@@ -1,6 +1,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <group
+        android:id="@+id/menuSortGroup"
+        android:visible="false">
+        <item
+            android:id="@+id/action_settings"
+            android:orderInCategory="100"
+            android:title="Сортировать"
+            app:showAsAction="always">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/menuSortByAll"
+                        android:orderInCategory="100"
+                        android:title="Все заявки">
+
+                    </item>
+                    <item
+                        android:id="@+id/menuSortByMy"
+                        android:orderInCategory="200"
+                        android:title="Мои заявки"></item>
+                </group>
+            </menu>
+        </item>
+    </group>
+    <group
+        android:id="@+id/menuJoinGroup"
+        android:visible="false">
+        <item
+            android:id="@+id/menuJoinButton"
+            app:showAsAction="always"
+            android:title="Я ПОЕДУ"></item>
+    </group>
 </menu>
